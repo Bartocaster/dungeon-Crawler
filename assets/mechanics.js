@@ -10,7 +10,7 @@ const ball = {
   x: 100, // placement on the canvas
   y: 30,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 2,
+  vy: 1,
   width: 10,
   height: 20,
   color: "#2e7d32",
@@ -27,7 +27,7 @@ const ball = {
 
 console.log(ball.y);
 
-let floorObstacleArr = [];
+let floors = [];
 
 //     createFloor = new obstacle(floorObstacle.floorX, floorObstacle.floorY, floorObstacle.floorcolor, floorObstacle.floorWidth, floorObstacle.floorHeight);
 
@@ -76,7 +76,29 @@ class Obstacle {
     ctx.fill();
     ctx.closePath();
   }
-
+  floorcollision() {
+    let x = this.floorX;
+    let y = this.floorY;
+    let w = this.floorWidth;
+  
+    if (
+      !(ball.x > x + w ||
+        ball.x + ball.width < x ||
+        ball.y > y + this.floorHeight ||
+        ball.y + ball.height < this.floorHeight
+      )
+    ) {
+      ball.color = "#ff0000";
+      // console.log("collison")
+      let endfloor = this.floorY - ball.height;
+      if (ball.y > endfloor) {
+        ball.y = endfloor;
+      }
+    } else {
+      // console.log(" no collison")
+      ball.color = "#2e7d32";
+    }
+  }
   movefloorUp() {
     this.floorY -= 0.5;
   }
@@ -105,15 +127,22 @@ function update() {
 
   preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
   /// only needed for ground
-
-  floorcollision(); // these condition make sure thea are repeated in this function
+floors.forEach(element => {
+    element.floorcollision(); // these condition make sure thea are repeated in this function
   // floorcollsion for every floor !!! works
-
-  let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
-  console.log(obstacle);
-  obstacle.drawFloor();
-  obstacle.movefloorUp();
+  
+  //   console.log(obstacle);
+  element.movefloorUp();
+  element.drawFloor();
+});
+  
 }
+let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
+for( let i = 0; i < 3; i++){
+    floors.push(new Obstacle(200, 600 + 100 * i, 250, 50, 5, "#0095DD"))
+    floors.push(new Obstacle(200 + 300, 600 + 100 * i, 250, 50, 5, "#0095DD"))
+}
+
 
 let rightPressed = false;
 let leftPressed = false;
@@ -136,33 +165,10 @@ function keyUpHandler(e) {
     leftPressed = false;
   }
 }
-function floorcollision() {
-  let x = this.floorX;
-  let y = this.floorY;
-  let w = this.floorWidth;
 
-  if (
-    !(
-      ball.x > x + w ||
-      ball.x + ball.width < x ||
-      ball.y > y + this.floorHeight ||
-      ball.y + ball.height < this.floorHeight
-    )
-  ) {
-    ball.color = "#ff0000";
-    // console.log("collison")
-    let endfloor = this.floorY - ball.height;
-    if (ball.y > endfloor) {
-      ball.y = endfloor;
-    }
-  } else {
-    // console.log(" no collison")
-    ball.color = "#2e7d32";
-  }
-}
 
 function hitFloor() {
-  let endfloor = this.floorY - ball.height;
+  let endfloor = obstacle.floorY - ball.height;
   if (ball.y > endfloor) {
     ball.y = endfloor;
   }
