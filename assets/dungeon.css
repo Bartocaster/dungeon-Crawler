@@ -4,8 +4,8 @@ body{
 }
 
 #canvas{
-    width: 1200px;
-    height: 600px;
+    /* width: 1200px;
+    height: 500px; */
     border: 1px solid rgb(56, 33, 33);
     
 }
