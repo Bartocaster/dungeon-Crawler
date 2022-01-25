@@ -1,16 +1,14 @@
-// class Game{
-//     constructor(){;
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-let gravity = 0; //here i can toy around with the gravity
+let floorCount = 0;
 
 const ball = {
   x: 100, // placement on the canvas
   y: 30,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 2,
+  vy: 5,
   width: 40,
   height: 60,
   color: "#2e7d32",
@@ -24,14 +22,6 @@ const ball = {
     ctx.fill();
   },
 };
-
-// console.log(ball.y);
-
-let floors = [];
-
-// 1 --> multiple objects (duplicated functionality)
-// 2 --> OOP with objects and prototype OOP -- old style
-// 3 --> conver to ES6 Class
 
 class Obstacle {
   constructor(x, y, width, height, padding, color) {
@@ -82,60 +72,56 @@ class Obstacle {
     }
   }
   movefloorUp() {
-    let speed = 7
+    let speed = 4;
     this.floorY -= speed;
-    
   }
-
-  
 }
-createObjects()
-    
-
-// ball.draw();
-
-function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ball.draw();
-  ball.vy += gravity - ball.userPull;
-  ball.x += ball.vx; // the width and height
-  ball.y += ball.vy;
-
-  if (rightPressed) {
-    ball.x += 7;
-    if (ball.x + ball.width > canvas.width) {
-      ball.x = canvas.width - ball.width;
-    }
-  } else if (leftPressed) {
-    ball.x -= 7;
-    if (ball.x < 0) {
-      ball.x = 0;
-    }
-  }
-  if(floors.length < 4){
-      console.log(floors)
-        createObjects()
-}
-  preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
-  /// only needed for ground
-  floors.forEach((element) => {
-    element.floorcollision(); // these condition make sure thea are repeated in this function
-    //   console.log(obstacle);
-    element.movefloorUp();
-    element.drawFloor();
-    
-});
-removeFloorsHitTop()
 
 
-}
-//                           X   Y  Width Heigth P colour
-let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
 
 // here you can created the length height and possition of the floor and how many re created
 
-function createObjects() {
-        for (let i = 0; i < 7; i++) {
+
+// <--- The Mighty Update for making stuff move --->
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ball.draw();
+    ball.vy += gravity - ball.userPull;
+    ball.x += ball.vx; // the width and height
+    ball.y += ball.vy;
+    
+    if (rightPressed) {
+      ball.x += 7;
+      if (ball.x + ball.width > canvas.width) {
+        ball.x = canvas.width - ball.width;
+      }
+    } else if (leftPressed) {
+      ball.x -= 7;
+      if (ball.x < 0) {
+        ball.x = 0;
+      }
+    }
+    
+    preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
+    /// only needed for ground
+    floors.forEach((element) => {
+      element.floorcollision(); // these condition make sure thea are repeated in this function
+      //   console.log(obstacle);
+      element.movefloorUp();
+      
+      if (element.floorY < 80) {
+        floors.shift()
+        floorCount += 1 
+        if ( floorCount % 2 == 0){
+            createObjects(1);
+        }
+      }
+      element.drawFloor();
+    });
+}
+
+function createObjects(lvl) {
+  // for (let i = 0; i < 7; i++) {
   let widthBeginPosition = 50;
   let widthEndPosition = canvas.width - 50;
   let widthValue = Math.floor(
@@ -148,37 +134,14 @@ function createObjects() {
   //width value = left
   // x value = right
   // what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a
-  floors.push(new Obstacle(0, 300 + 150 * i, widthValue, 10, 5, "#0095DD"));
-  floors.push(new Obstacle( widthValue + gapValue,300 + 150 * i,
-      canvas.width,
-      10,
-      5,
-      "#0095DD"
+  floors.push(new Obstacle(0, 300 + 300 * lvl, widthValue, 10, 5, "#0095DD"));
+  floors.push(
+    new Obstacle(
+      widthValue + gapValue, 300 + 300 * lvl, canvas.width, 10, 5, "#0095DD"
     )
   );
-  }
 }
 
-console.log(floors)
-// console.log(floors[length].floorY)
-function removeFloorsHitTop(){
-    for( let i = 0; i < floors.length; i++ ){
-         if(floors[i].floorY < 200) {
-            floors.shift() 
-            
-        }
-        if(floors.length < 4){
-        
-    }
-    }
-}
-
-
-let rightPressed = false;
-let leftPressed = false;
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
   if (e.key == "Right" || e.key == "ArrowRight") {
@@ -209,5 +172,27 @@ function preventGoingThroughBottom() {
     ball.y = rockbottom;
   }
 }
+
+function createInitalObjects (){
+    for( let i = 0; i < 3; i++){
+    createObjects(i)
+    }
+}
+
+let rightPressed = false;
+let leftPressed = false;
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+let gravity = 0; //here i can toy around with the gravity
+let floors = [];
+
+//                           X   Y  Width Heigth P colour
+// let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
+
+// <---- function defined ----->
+
+createInitalObjects();
 
 setInterval(update, 34); // speed of updates and animation will be used for falling.
