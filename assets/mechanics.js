@@ -3,6 +3,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 let floorCount = 0;
+let floor_id = 0;
 
 const ball = {
   x: 100, // placement on the canvas
@@ -25,13 +26,15 @@ const ball = {
 
 class Obstacle {
   constructor(x, y, width, height, padding, color) {
+    this.floor_id = floor_id;
+    floor_id +=1;
     this.floorX = x;
     this.floorY = y;
     this.floorWidth = width;
     this.floorHeight = height;
     this.padding = padding;
     this.floorcolor = color;
-
+    this.deleted = false;
     // this.floorX = 50;
     // this.floorY = 150;
     // this.floorWidth = 300;      // turn into canvas width for total length
@@ -105,18 +108,23 @@ function update() {
     preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
     /// only needed for ground
     floors.forEach((element) => {
-      element.floorcollision(); // these condition make sure thea are repeated in this function
-      //   console.log(obstacle);
-      element.movefloorUp();
+
       
-      if (element.floorY < 80) {
-        floors.shift()
+      if (element.floorY < 80 && element.deleted == false) {
+        // We should remove this floor.
+        element.deleted = true
         floorCount += 1 
         if ( floorCount % 2 == 0){
             createObjects(1);
         }
       }
+      if (element.deleted == false){
+
       element.drawFloor();
+      element.floorcollision(); // these condition make sure thea are repeated in this function
+      //   console.log(obstacle);
+      element.movefloorUp();
+      }
     });
 }
 
@@ -174,7 +182,7 @@ function preventGoingThroughBottom() {
 }
 
 function createInitalObjects (){
-    for( let i = 0; i < 3; i++){
+    for( let i = 0; i < 4; i++){
     createObjects(i)
     }
 }
