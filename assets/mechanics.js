@@ -10,9 +10,9 @@ const ball = {
   x: 100, // placement on the canvas
   y: 30,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 1,
-  width: 10,
-  height: 20,
+  vy: 2,
+  width: 40,
+  height: 60,
   color: "#2e7d32",
   userPull: 0,
 
@@ -25,10 +25,9 @@ const ball = {
   },
 };
 
-console.log(ball.y);
+// console.log(ball.y);
 
 let floors = [];
-
 
 // 1 --> multiple objects (duplicated functionality)
 // 2 --> OOP with objects and prototype OOP -- old style
@@ -62,9 +61,10 @@ class Obstacle {
     let x = this.floorX;
     let y = this.floorY;
     let w = this.floorWidth;
-  
+
     if (
-      !(ball.x > x + w ||
+      !(
+        ball.x > x + w ||
         ball.x + ball.width < x ||
         ball.y > y + this.floorHeight ||
         ball.y + ball.height < this.floorHeight
@@ -82,22 +82,17 @@ class Obstacle {
     }
   }
   movefloorUp() {
-    this.floorY -= 0.5;
+    let speed = 7
+    this.floorY -= speed;
+    
   }
-       
-    // drawHole(){
-    //     ctx.beginPath();
-    //     ctx.rect(400, 400, 50, 50)
-               
-    //     ctx.closePath();
 
-    // }
+  
 }
+createObjects()
+    
 
-
-
-
-ball.draw();
+// ball.draw();
 
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -117,48 +112,67 @@ function update() {
       ball.x = 0;
     }
   }
-  
+  if(floors.length < 4){
+      console.log(floors)
+        createObjects()
+}
   preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
   /// only needed for ground
-floors.forEach(element => {
+  floors.forEach((element) => {
     element.floorcollision(); // these condition make sure thea are repeated in this function
+    //   console.log(obstacle);
+    element.movefloorUp();
+    element.drawFloor();
     
-  
-  //   console.log(obstacle);
-  element.movefloorUp();
-  element.drawFloor();
 });
+removeFloorsHitTop()
 
-    
+
 }
-                        //    X   Y  Width Heigth P colour
+//                           X   Y  Width Heigth P colour
 let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
 
 // here you can created the length height and possition of the floor and how many re created
-for( let i = 0; i < 7; i++){   
-    let widthBeginPosition = 50;
-    let widthEndPosition = canvas.width - 50;
-    let widthValue = Math.floor(Math.random()*(widthEndPosition - widthBeginPosition)+ widthBeginPosition);
-    let maxGap = 200;
-    let miniGap = 50;
-    let gapValue =  Math.floor(Math.random()*(maxGap - miniGap)+miniGap );
 
+function createObjects() {
+        for (let i = 0; i < 7; i++) {
+  let widthBeginPosition = 50;
+  let widthEndPosition = canvas.width - 50;
+  let widthValue = Math.floor(
+    Math.random() * (widthEndPosition - widthBeginPosition) + widthBeginPosition
+  );
+  let maxGap = 200;
+  let miniGap = 50;
+  let gapValue = Math.floor(Math.random() * (maxGap - miniGap) + miniGap);
 
-
-    //width value = left
-    // x value = right
-// what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a 
-    floors.push(new Obstacle(0, (200 + 100 * i), widthValue, 20, 5, "#0095DD"))
-    floors.push(new Obstacle(widthValue + gapValue , (200 + 100 * i), canvas.width, 20, 5, "#0095DD"))
-    // floors.push()
+  //width value = left
+  // x value = right
+  // what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a
+  floors.push(new Obstacle(0, 300 + 150 * i, widthValue, 10, 5, "#0095DD"));
+  floors.push(new Obstacle( widthValue + gapValue,300 + 150 * i,
+      canvas.width,
+      10,
+      5,
+      "#0095DD"
+    )
+  );
+  }
 }
 
+console.log(floors)
 // console.log(floors[length].floorY)
-// function removeFloorsHitTop(element){
-//     if(floors[length].floorY === 300){
-//         return remove()
-//     }
-// }
+function removeFloorsHitTop(){
+    for( let i = 0; i < floors.length; i++ ){
+         if(floors[i].floorY < 200) {
+            floors.shift() 
+            
+        }
+        if(floors.length < 4){
+        
+    }
+    }
+}
+
 
 let rightPressed = false;
 let leftPressed = false;
@@ -182,14 +196,12 @@ function keyUpHandler(e) {
   }
 }
 
-
 function hitFloor() {
   let endfloor = obstacle.floorY - ball.height;
   if (ball.y > endfloor) {
     ball.y = endfloor;
   }
 }
-
 
 function preventGoingThroughBottom() {
   let rockbottom = canvas.height - ball.height;
@@ -198,4 +210,4 @@ function preventGoingThroughBottom() {
   }
 }
 
-setInterval(update, 30); // speed of updates and animation will be used for falling.
+setInterval(update, 34); // speed of updates and animation will be used for falling.
