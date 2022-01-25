@@ -29,24 +29,6 @@ console.log(ball.y);
 
 let floors = [];
 
-//     createFloor = new obstacle(floorObstacle.floorX, floorObstacle.floorY, floorObstacle.floorcolor, floorObstacle.floorWidth, floorObstacle.floorHeight);
-
-// const floorObstacle = {
-//     floorX: 50,
-//     floorY: 150,
-//     floorWidth: canvas.width,      // turn into canvas width for total length
-//     floorHeight: 5,
-//     floorPadding: 10,
-//     floorcolor: "#0095DD",
-
-//     drawFloor: function () {
-//         ctx.beginPath();
-//         ctx.rect(this.floorX, this.floorY, this.floorWidth, this.floorHeight);
-//         ctx.fillStyle = this.floorcolor
-//         ctx.fill();
-//         ctx.closePath();
-//     },
-// }
 
 // 1 --> multiple objects (duplicated functionality)
 // 2 --> OOP with objects and prototype OOP -- old style
@@ -102,7 +84,18 @@ class Obstacle {
   movefloorUp() {
     this.floorY -= 0.5;
   }
+       
+    // drawHole(){
+    //     ctx.beginPath();
+    //     ctx.rect(400, 400, 50, 50)
+               
+    //     ctx.closePath();
+
+    // }
 }
+
+
+
 
 ball.draw();
 
@@ -124,25 +117,48 @@ function update() {
       ball.x = 0;
     }
   }
-
+  
   preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
   /// only needed for ground
 floors.forEach(element => {
     element.floorcollision(); // these condition make sure thea are repeated in this function
-  // floorcollsion for every floor !!! works
+    
   
   //   console.log(obstacle);
   element.movefloorUp();
   element.drawFloor();
 });
-  
+
+    
 }
+                        //    X   Y  Width Heigth P colour
 let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
-for( let i = 0; i < 3; i++){
-    floors.push(new Obstacle(200, 600 + 100 * i, 250, 50, 5, "#0095DD"))
-    floors.push(new Obstacle(200 + 300, 600 + 100 * i, 250, 50, 5, "#0095DD"))
+
+// here you can created the length height and possition of the floor and how many re created
+for( let i = 0; i < 7; i++){   
+    let widthBeginPosition = 50;
+    let widthEndPosition = canvas.width - 50;
+    let widthValue = Math.floor(Math.random()*(widthEndPosition - widthBeginPosition)+ widthBeginPosition);
+    let maxGap = 200;
+    let miniGap = 50;
+    let gapValue =  Math.floor(Math.random()*(maxGap - miniGap)+miniGap );
+
+
+
+    //width value = left
+    // x value = right
+// what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a 
+    floors.push(new Obstacle(0, (200 + 100 * i), widthValue, 20, 5, "#0095DD"))
+    floors.push(new Obstacle(widthValue + gapValue , (200 + 100 * i), canvas.width, 20, 5, "#0095DD"))
+    // floors.push()
 }
 
+// console.log(floors[length].floorY)
+// function removeFloorsHitTop(element){
+//     if(floors[length].floorY === 300){
+//         return remove()
+//     }
+// }
 
 let rightPressed = false;
 let leftPressed = false;
@@ -174,6 +190,7 @@ function hitFloor() {
   }
 }
 
+
 function preventGoingThroughBottom() {
   let rockbottom = canvas.height - ball.height;
   if (ball.y > rockbottom) {
@@ -181,4 +198,4 @@ function preventGoingThroughBottom() {
   }
 }
 
-setInterval(update, 40); // speed of updates and animation will be used for falling.
+setInterval(update, 30); // speed of updates and animation will be used for falling.
