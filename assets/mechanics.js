@@ -14,10 +14,11 @@ const ball = {
   height: 60,
   color: "#2e7d32",
   userPull: 0,
-
+ 
   draw: function () {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
+    // ctx.drawImage(ball, this.x, )
     ctx.closePath();
     ctx.fillStyle = this.color;
     ctx.fill();
@@ -32,6 +33,8 @@ class Obstacle {
     this.floorHeight = height;
     this.padding = padding;
     this.floorcolor = color;
+    this.deleted = false;
+
     // this.deleted = false;
     // this.floorX = 50;
     // this.floorY = 150;
@@ -61,7 +64,7 @@ class Obstacle {
         ball.y + ball.height < this.floorHeight
       )
     ) {
-      ball.color = "#ff0000";
+    //   ball.color = "#ff0000";
       // console.log("collison")
       let endfloor = this.floorY - ball.height;
       if (ball.y > endfloor) {
@@ -69,7 +72,7 @@ class Obstacle {
       }
     } else {
       // console.log(" no collison")
-      ball.color = "#2e7d32";
+    //   ball.color = "#2e7d32";
     }
   }
   movefloorUp() {
@@ -107,20 +110,25 @@ function update() {
     /// only needed for ground
     floors.forEach((element) => {
 
-      element.floorcollision(); // these condition make sure thea are repeated in this function
-      //   console.log(obstacle);
-      element.movefloorUp();
       
-    if (element.floorY < 70) {
-        floors.shift()
-        ctx.clearRect(element.floorX, element.floorY, element.floorWidth, element.floorHeight);
-        // console.log(floors);
-    if( floors.length < 10){
-        createObjects(6);
-    }
-    }
+
+      if (element.floorY < 80 && element.deleted == false) {
+        // We should remove this floor.
+        element.deleted = true
+        floorCount += 1 
+        if ( floorCount % 2 == 0){
+            createObjects(3);
+        }
+      }
+      if (element.deleted == false){
+        element.floorcollision(); // these condition make sure thea are repeated in this function
+        //   console.log(obstacle);
+        element.movefloorUp();
+      element.drawFloor(); }
+    // if (element.floorY < 70) {
+    //     floors.shift()
     
-    element.drawFloor();
+    // }
 });
 
 
@@ -183,7 +191,7 @@ function preventGoingThroughBottom() {
 }
 
 function createInitalObjects (){
-    for( let i = 0; i < 6; i++){
+    for( let i = 0; i < 4; i++){
     createObjects(i)
     }
    
