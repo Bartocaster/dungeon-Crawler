@@ -115,7 +115,7 @@ function update() {
         floorCount += 1 
         console.log(floorCount);
         if ( floorCount % 2 == 0){
-            createObjects(1);
+            createObjects();
         }
       }
       element.drawFloor();
