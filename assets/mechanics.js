@@ -3,7 +3,6 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 let floorCount = 0;
-let floor_id = 0;
 
 const ball = {
   x: 100, // placement on the canvas
@@ -26,8 +25,6 @@ const ball = {
 
 class Obstacle {
   constructor(x, y, width, height, padding, color) {
-    this.floor_id = floor_id;
-    floor_id +=1;
     this.floorX = x;
     this.floorY = y;
     this.floorWidth = width;
@@ -203,4 +200,4 @@ let floors = [];
 
 createInitalObjects();
 
-setInterval(update, 34); // speed of updates and animation will be used for falling.
+setInterval(update, 17); // speed of updates and animation will be used for falling.
