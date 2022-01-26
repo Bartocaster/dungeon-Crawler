@@ -32,7 +32,8 @@ class Obstacle {
     this.floorHeight = height;
     this.padding = padding;
     this.floorcolor = color;
-    // this.deleted = false;
+    this.deleted = false;
+
     // this.floorX = 50;
     // this.floorY = 150;
     // this.floorWidth = 300;      // turn into canvas width for total length
@@ -107,23 +108,22 @@ function update() {
     /// only needed for ground
     floors.forEach((element) => {
 
+      if (element.floorY < 80 && element.deleted == false) {
+        // We should remove this floor.
+        element.deleted = true
+        floorCount += 1 
+        if ( floorCount % 2 == 0){
+            createObjects(1);
+        }
+      }
+      if (element.deleted == false){
+
+      element.drawFloor();
       element.floorcollision(); // these condition make sure thea are repeated in this function
       //   console.log(obstacle);
       element.movefloorUp();
-      
-    if (element.floorY < 70) {
-        floors.shift()
-        ctx.clearRect(element.floorX, element.floorY, element.floorWidth, element.floorHeight);
-        // console.log(floors);
-    if( floors.length < 10){
-        createObjects(6);
-    }
-    }
-    
-    element.drawFloor();
-});
-
-
+      }
+    });
 }
 
 
@@ -183,7 +183,7 @@ function preventGoingThroughBottom() {
 }
 
 function createInitalObjects (){
-    for( let i = 0; i < 6; i++){
+    for( let i = 0; i < 4; i++){
     createObjects(i)
     }
    
@@ -206,4 +206,5 @@ let floors = [];
 
 createInitalObjects();
 
-setInterval(update, 40); // speed of updates and animation will be used for falling.
+setInterval(update, 17); // speed of updates and animation will be used for falling.
+
