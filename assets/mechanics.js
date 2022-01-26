@@ -32,7 +32,7 @@ class Obstacle {
     this.floorHeight = height;
     this.padding = padding;
     this.floorcolor = color;
-    this.deleted = false;
+    // this.deleted = false;
     // this.floorX = 50;
     // this.floorY = 150;
     // this.floorWidth = 300;      // turn into canvas width for total length
@@ -73,7 +73,7 @@ class Obstacle {
     }
   }
   movefloorUp() {
-    let speed = 5;
+    let speed = 4;
     this.floorY -= speed;
   }
 }
@@ -106,21 +106,28 @@ function update() {
     preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
     /// only needed for ground
     floors.forEach((element) => {
+
       element.floorcollision(); // these condition make sure thea are repeated in this function
       //   console.log(obstacle);
       element.movefloorUp();
       
-      if (element.floorY < 70) {
+    if (element.floorY < 70) {
         floors.shift()
-        floorCount += 1 
-        console.log(floorCount);
-        if ( floorCount % 2 == 0){
-            createObjects();
-        }
-      }
-      element.drawFloor();
-    });
+        ctx.clearRect(element.floorX, element.floorY, element.floorWidth, element.floorHeight);
+        // console.log(floors);
+    if( floors.length < 10){
+        createObjects(6);
+    }
+    }
+    
+    element.drawFloor();
+});
+
+
 }
+
+
+
 
 function createObjects(lvl) {
   // for (let i = 0; i < 7; i++) {
@@ -176,9 +183,10 @@ function preventGoingThroughBottom() {
 }
 
 function createInitalObjects (){
-    for( let i = 0; i < 2; i++){
+    for( let i = 0; i < 6; i++){
     createObjects(i)
     }
+   
 }
 
 let rightPressed = false;
@@ -189,6 +197,7 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 let gravity = 0; //here i can toy around with the gravity
 let floors = [];
+
 
 //                           X   Y  Width Heigth P colour
 // let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
