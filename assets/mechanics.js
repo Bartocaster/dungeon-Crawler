@@ -4,11 +4,12 @@ const ctx = canvas.getContext("2d");
 
 let floorCount = 0;
 
+
 const ball = {
   x: 100, // placement on the canvas
   y: 30,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 5,
+  vy: 7,
   width: 40,
   height: 60,
   color: "#2e7d32",
@@ -32,6 +33,7 @@ class Obstacle {
     this.padding = padding;
     this.floorcolor = color;
     this.deleted = false;
+
     // this.floorX = 50;
     // this.floorY = 150;
     // this.floorWidth = 300;      // turn into canvas width for total length
@@ -106,7 +108,6 @@ function update() {
     /// only needed for ground
     floors.forEach((element) => {
 
-      
       if (element.floorY < 80 && element.deleted == false) {
         // We should remove this floor.
         element.deleted = true
@@ -125,6 +126,9 @@ function update() {
     });
 }
 
+
+
+
 function createObjects(lvl) {
   // for (let i = 0; i < 7; i++) {
   let widthBeginPosition = 50;
@@ -139,10 +143,10 @@ function createObjects(lvl) {
   //width value = left
   // x value = right
   // what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a
-  floors.push(new Obstacle(0, 300 + 300 * lvl, widthValue, 10, 5, "#0095DD"));
+  floors.push(new Obstacle(0, 320 + 200 * lvl, widthValue, 10, 5, "#0095DD"));
   floors.push(
     new Obstacle(
-      widthValue + gapValue, 300 + 300 * lvl, canvas.width, 10, 5, "#0095DD"
+      widthValue + gapValue, 320 + 200 * lvl, canvas.width, 10, 5, "#0095DD"
     )
   );
 }
@@ -182,6 +186,7 @@ function createInitalObjects (){
     for( let i = 0; i < 4; i++){
     createObjects(i)
     }
+   
 }
 
 let rightPressed = false;
@@ -193,6 +198,7 @@ document.addEventListener("keyup", keyUpHandler, false);
 let gravity = 0; //here i can toy around with the gravity
 let floors = [];
 
+
 //                           X   Y  Width Heigth P colour
 // let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
 
@@ -201,3 +207,4 @@ let floors = [];
 createInitalObjects();
 
 setInterval(update, 17); // speed of updates and animation will be used for falling.
+
