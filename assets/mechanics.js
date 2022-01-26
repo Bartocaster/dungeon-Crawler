@@ -4,11 +4,12 @@ const ctx = canvas.getContext("2d");
 
 let floorCount = 0;
 
+
 const ball = {
   x: 100, // placement on the canvas
   y: 30,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 5,
+  vy: 7,
   width: 40,
   height: 60,
   color: "#2e7d32",
@@ -31,7 +32,7 @@ class Obstacle {
     this.floorHeight = height;
     this.padding = padding;
     this.floorcolor = color;
-
+    this.deleted = false;
     // this.floorX = 50;
     // this.floorY = 150;
     // this.floorWidth = 300;      // turn into canvas width for total length
@@ -72,7 +73,7 @@ class Obstacle {
     }
   }
   movefloorUp() {
-    let speed = 4;
+    let speed = 5;
     this.floorY -= speed;
   }
 }
@@ -109,9 +110,10 @@ function update() {
       //   console.log(obstacle);
       element.movefloorUp();
       
-      if (element.floorY < 80) {
+      if (element.floorY < 70) {
         floors.shift()
         floorCount += 1 
+        console.log(floorCount);
         if ( floorCount % 2 == 0){
             createObjects(1);
         }
@@ -134,10 +136,10 @@ function createObjects(lvl) {
   //width value = left
   // x value = right
   // what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a
-  floors.push(new Obstacle(0, 300 + 300 * lvl, widthValue, 10, 5, "#0095DD"));
+  floors.push(new Obstacle(0, 320 + 200 * lvl, widthValue, 10, 5, "#0095DD"));
   floors.push(
     new Obstacle(
-      widthValue + gapValue, 300 + 300 * lvl, canvas.width, 10, 5, "#0095DD"
+      widthValue + gapValue, 320 + 200 * lvl, canvas.width, 10, 5, "#0095DD"
     )
   );
 }
@@ -174,7 +176,7 @@ function preventGoingThroughBottom() {
 }
 
 function createInitalObjects (){
-    for( let i = 0; i < 3; i++){
+    for( let i = 0; i < 2; i++){
     createObjects(i)
     }
 }
@@ -195,4 +197,4 @@ let floors = [];
 
 createInitalObjects();
 
-setInterval(update, 34); // speed of updates and animation will be used for falling.
+setInterval(update, 40); // speed of updates and animation will be used for falling.
