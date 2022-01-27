@@ -22,10 +22,8 @@ const ball = {
   draw: function () {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.drawImage(charImage, 20, 00, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
-                                                            // cycle through the picture with a method
-        // ctx.fill();
     ctx.closePath();
+    ctx.drawImage(charImage, 20, 00, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
   },
 };
 
@@ -50,10 +48,10 @@ class Obstacle {
   drawFloor() {
     ctx.beginPath();
     ctx.rect(this.floorX, this.floorY, this.floorWidth, this.floorHeight);
+    ctx.closePath();
     ctx.drawImage(floorImage, this.floorX, this.floorY, this.floorWidth, 60);
     // ctx.fillStyle = this.floorcolor;
     // ctx.fill();
-    ctx.closePath();
   }
   floorcollision() {
     let x = this.floorX;
