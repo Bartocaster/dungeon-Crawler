@@ -90,10 +90,14 @@ class Obstacle {
     //     break;
     //      console.log("it works")
     // }
-    if(floorCount > 5 && floorCount < 10){
-        speedup = 5
-    } else if (floorCount > 10 && floorCount < 20){
-        speedup = 10
+    if(floorCount > 20 && floorCount < 40){
+        speedup = 4
+    } else if (floorCount > 40 && floorCount < 60){
+        speedup = 6
+    }else if (floorCount > 60 && floorCount < 80){
+        speedup = 8
+    }else if (floorCount > 80 && floorCount < 100){
+        speedup = 11
     }
     
     console.log("this is speed up " +speedup);
@@ -228,7 +232,7 @@ function gameOver (){
     let dead = (canvas.height - 1190) + ball.height;
     if(ball.y < dead){
         console.log("stop Game")
-        // alert("stop game")
+        alert("stop game")
         // clearInterval(this.update());
         // clearInterval(this.setInterval())
     }
