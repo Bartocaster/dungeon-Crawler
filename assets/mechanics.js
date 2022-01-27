@@ -25,12 +25,15 @@ const ball = {
   height: 54,
 //   color: charImage,
   userPull: 0,
+  xSprite_positions: [0,64,128,192,256,320,384,448],
+  sprite_x: 0,
+  
  
   draw: function () {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
     ctx.closePath();
-    ctx.drawImage(charImage, 20, 00, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
+    ctx.drawImage(charImage, this.xSprite_positions[this.sprite_x], 32, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
   },
 };
 
@@ -243,6 +246,14 @@ function gameOver (){
     }
 }
 
+function updateSprite(){
+    ball.sprite_x += 1
+    if(ball.sprite_x >= ball.xSprite_positions.length){
+        ball.sprite_x = 0;
+    }
+    
+}
+
 // function audioVolume() {
 //     let audio = document.getElementById("myaudio");
 //     audio.volume = 0.05;
@@ -271,4 +282,5 @@ let floors = [];
 createInitalObjects();
 
 setInterval(update, 40); // speed of updates and animation will be used for falling.
+setInterval(updateSprite, 200)
 
