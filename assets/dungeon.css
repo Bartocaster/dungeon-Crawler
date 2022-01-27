@@ -11,7 +11,7 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: url("../game pix/background_cave.png");
+    background-image: url("./images/background_cave.png");
     background-size: contain;
     border-top: 50px;
 }

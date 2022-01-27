@@ -2,13 +2,17 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const charImage = new Image()
+charImage.src = "./assets/images/Dwarf Miner Sprite Sheet.png"
+
+const floorImage = new Image()
+floorImage.src = "./assets/images/longwidthfloor.png";
+
 
 let floorCount = 0;
-const charImage = new Image()
-charImage.src = "/game pix/Dwarf Miner Sprite Sheet.png"
-const floorImage = new Image()
-floorImage.src = "/game pix/longwidthfloor.png";
+
 let speedup = 0
+
 
 
 
