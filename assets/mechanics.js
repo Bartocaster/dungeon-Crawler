@@ -3,25 +3,29 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 let floorCount = 0;
+const charImage = new Image()
+charImage.src = "../game pix/Dwarf Miner Sprite Sheet.png"
+let speedup = 2
+
 
 
 const ball = {
   x: 100, // placement on the canvas
-  y: 30,
+  y: 700,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
   vy: 7,
-  width: 40,
-  height: 60,
-  color: "#2e7d32",
+  width: 32,
+  height: 54,
+//   color: charImage,
   userPull: 0,
  
   draw: function () {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    // ctx.drawImage(ball, this.x, )
+    ctx.drawImage(charImage, 20, 00, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
+                                                            // cycle through the picture with a method
+        // ctx.fill();
     ctx.closePath();
-    ctx.fillStyle = this.color;
-    ctx.fill();
   },
 };
 
@@ -46,9 +50,9 @@ class Obstacle {
   drawFloor() {
     ctx.beginPath();
     ctx.rect(this.floorX, this.floorY, this.floorWidth, this.floorHeight);
-    // ctx.rect(50, 50, 30, 20);
-    ctx.fillStyle = this.floorcolor;
-    ctx.fill();
+    ctx.drawImage(floorImage, this.floorX, this.floorY, this.floorWidth, 60);
+    // ctx.fillStyle = this.floorcolor;
+    // ctx.fill();
     ctx.closePath();
   }
   floorcollision() {
@@ -75,10 +79,30 @@ class Obstacle {
     //   ball.color = "#2e7d32";
     }
   }
+  
   movefloorUp() {
-    let speed = 4;
-    this.floorY -= speed;
+    // if i have 50 floors than increase speed  need 
+    // switch((( floorCount ) + 2)% condition === 0){
+    //     case 1:
+    //         floorCount 10
+    //        let condition = 10 
+    //     speedup += 0.5
+    //     break;
+    //      console.log("it works")
+    // }
+    if(floorCount > 5 && floorCount < 10){
+        speedup = 5
+    } else if (floorCount > 10 && floorCount < 20){
+        speedup = 10
+    }
+    
+    console.log("this is speed up " +speedup);
+    console.log("this is amount of floors" + floorCount);
+    
+    this.floorY -= speedup;
+    
   }
+
 }
 
 
@@ -90,21 +114,23 @@ class Obstacle {
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ball.draw();
+
     ball.vy += gravity - ball.userPull;
     ball.x += ball.vx; // the width and height
     ball.y += ball.vy;
     
     if (rightPressed) {
-      ball.x += 7;
+      ball.x += 15;
       if (ball.x + ball.width > canvas.width) {
         ball.x = canvas.width - ball.width;
       }
     } else if (leftPressed) {
-      ball.x -= 7;
+      ball.x -= 15;
       if (ball.x < 0) {
         ball.x = 0;
       }
     }
+
     
     preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
     /// only needed for ground
@@ -120,6 +146,7 @@ function update() {
             createObjects(3);
         }
       }
+      
       if (element.deleted == false){
         element.floorcollision(); // these condition make sure thea are repeated in this function
         //   console.log(obstacle);
@@ -131,6 +158,7 @@ function update() {
     // }
 });
 
+gameOver()
 
 }
 
@@ -145,16 +173,16 @@ function createObjects(lvl) {
     Math.random() * (widthEndPosition - widthBeginPosition) + widthBeginPosition
   );
   let maxGap = 200;
-  let miniGap = 50;
+  let miniGap = 80;
   let gapValue = Math.floor(Math.random() * (maxGap - miniGap) + miniGap);
 
   //width value = left
   // x value = right
   // what am i trying to do i try to created Random hole between 2 difffrent platforms    And becaus of that i need to change a
-  floors.push(new Obstacle(0, 320 + 200 * lvl, widthValue, 10, 5, "#0095DD"));
+  floors.push(new Obstacle(0, 320 + 300 * lvl, widthValue, 20, 5, "#0095DD"));
   floors.push(
     new Obstacle(
-      widthValue + gapValue, 320 + 200 * lvl, canvas.width, 10, 5, "#0095DD"
+      widthValue + gapValue, 320 + 300 * lvl, canvas.width, 20, 5, "#0095DD"
     )
   );
 }
@@ -196,6 +224,15 @@ function createInitalObjects (){
     }
    
 }
+function gameOver (){
+    let dead = (canvas.height - 1190) + ball.height;
+    if(ball.y < dead){
+        console.log("stop Game")
+        // alert("stop game")
+        // clearInterval(this.update());
+        // clearInterval(this.setInterval())
+    }
+}
 
 let rightPressed = false;
 let leftPressed = false;
@@ -205,6 +242,11 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 let gravity = 0; //here i can toy around with the gravity
 let floors = [];
+const floorImage = new Image()
+floorImage.src = "../game pix/longwidthfloor.png";
+
+
+
 
 
 //                           X   Y  Width Heigth P colour
@@ -215,3 +257,5 @@ let floors = [];
 createInitalObjects();
 
 setInterval(update, 40); // speed of updates and animation will be used for falling.
+
+

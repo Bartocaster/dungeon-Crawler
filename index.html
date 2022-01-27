@@ -8,8 +8,13 @@
 <link rel="stylesheet" href="./assets/dungeon.css">
 </head>
 <body>
-    <canvas id="canvas" width="1200" height="900"></canvas>
-    
+    <img id="spikes" src="./game pix/spikes 2.png" alt="Spikes">
+    <canvas id="canvas" width="1400" height="1200"></canvas>
+    <div id="gameover-screen" style="display: none;">
+        <h1>Game over</h1>
+        <h2> you got crushed</h2>
+        <button onclick="reloadPage">Start Game</button>
+    </div>
 
     
     <script src="./assets/mechanics.js"></script>

@@ -13,10 +13,15 @@ body{
     transform: translate(-50%, -50%);
     background-image: url("../game pix/background_cave.png");
     background-size: contain;
+    border-top: 50px;
 }
   
-#floor {
-    background-color: black;
-    position: absolute;
-  }
-  
+#spikes{
+    position:absolute;
+    left: 380px;
+    height: 100px;
+    width: 1400px;
+    z-index: 100;
+    
+}
+
