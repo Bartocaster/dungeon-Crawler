@@ -8,15 +8,21 @@
 <link rel="stylesheet" href="./assets/dungeon.css">
 </head>
 <body>
-    <img id="spikes" src="./game pix/spikes 2.png" alt="Spikes">
-    <canvas id="canvas" width="1400" height="1200"></canvas>
+    
+    <div>
+        <img id="spikes" src="./game pix/spikes 2.png" alt="Spikes">
+    <canvas id="canvas" width="1100" height="1100">
+    </canvas>
+    </div>
     <div id="gameover-screen" style="display: none;">
         <h1>Game over</h1>
         <h2> you got crushed</h2>
         <button onclick="reloadPage">Start Game</button>
     </div>
 
-    
+    <!-- <audio autoplay loop id="myaudio">
+        <source src="./game pix/21 - full of danger.mp3" type="audio/mp3">
+    </audio> -->
     <script src="./assets/mechanics.js"></script>
 </body>
 </html>

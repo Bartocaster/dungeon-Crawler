@@ -2,10 +2,11 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+
 let floorCount = 0;
 const charImage = new Image()
 charImage.src = "/game pix/Dwarf Miner Sprite Sheet.png"
-let speedup = 2
+let speedup = 3
 
 
 
@@ -236,6 +237,11 @@ function gameOver (){
     }
 }
 
+// function audioVolume() {
+//     let audio = document.getElementById("myaudio");
+//     audio.volume = 0.05;
+// };
+
 let rightPressed = false;
 let leftPressed = false;
 
@@ -255,9 +261,9 @@ floorImage.src = "/game pix/longwidthfloor.png";
 // let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
 
 // <---- function defined ----->
+// audioVolume();
 
 createInitalObjects();
 
 setInterval(update, 40); // speed of updates and animation will be used for falling.
-
 
