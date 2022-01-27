@@ -1,0 +1,6 @@
+1.0
+- Created dwarf sprite.
+- Created dwarf hero sprite.
+- Created dwarf guardian sprite.
+- Created dwarf leader sprite.
+- Created dwarf elder sprite.
