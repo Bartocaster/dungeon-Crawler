@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 let floorCount = 0;
 const charImage = new Image()
 charImage.src = "/game pix/Dwarf Miner Sprite Sheet.png"
-let speedup = 3
+let speedup = 0
 
 
 
