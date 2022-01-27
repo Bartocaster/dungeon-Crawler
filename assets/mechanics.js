@@ -6,6 +6,8 @@ const ctx = canvas.getContext("2d");
 let floorCount = 0;
 const charImage = new Image()
 charImage.src = "/game pix/Dwarf Miner Sprite Sheet.png"
+const floorImage = new Image()
+floorImage.src = "/game pix/longwidthfloor.png";
 let speedup = 0
 
 
@@ -250,8 +252,7 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 let gravity = 0; //here i can toy around with the gravity
 let floors = [];
-const floorImage = new Image()
-floorImage.src = "/game pix/longwidthfloor.png";
+
 
 
 
