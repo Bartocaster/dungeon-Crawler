@@ -255,7 +255,7 @@ function updateSprite(){
 
 function audioVolume() {
     let audio = document.getElementById("myaudio");
-    audio.volume = 0.05;
+    audio.volume = 0.2;
 };
 
 let rightPressed = false;
