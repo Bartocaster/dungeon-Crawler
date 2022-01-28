@@ -2,16 +2,17 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const charImage = new Image()
-charImage.src = "./assets/images/Dwarf Miner Sprite Sheet.png"
+const charImage = new Image();
+charImage.src = "./assets/images/Dwarf Miner Sprite Sheet.png";
 
-const floorImage = new Image()
+const floorImage = new Image();
 floorImage.src = "./assets/images/longwidthfloor.png";
 
-
+const spikeImage = new Image();
+spikeImage.src = "./assets/images/spikes_2.png";
 let floorCount = 0;
 
-let speedup = 0
+let speedup = 2
 
 
 
@@ -20,7 +21,7 @@ const ball = {
   x: 100, // placement on the canvas
   y: 700,
   vx: 0, // this is speed in the x axis of the pull (maby future game mechanic)
-  vy: 7,
+  vy: 8,
   width: 32,
   height: 54,
 //   color: charImage,
@@ -32,10 +33,14 @@ const ball = {
   draw: function () {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(charImage, this.xSprite_positions[this.sprite_x], 32, 64 ,64 /2 ,this.x - 50, this.y - 74,  150, 128 );
+    
     ctx.closePath();
-    ctx.drawImage(charImage, this.xSprite_positions[this.sprite_x], 32, 64 ,64 /2 ,this.x, this.y - 74,  150, 128 );
+    
   },
 };
+ 
+
 
 class Obstacle {
   constructor(x, y, width, height, padding, color) {
@@ -89,25 +94,17 @@ class Obstacle {
   }
   
   movefloorUp() {
-    // if i have 50 floors than increase speed  need 
-    // switch((( floorCount ) + 2)% condition === 0){
-    //     case 1:
-    //         floorCount 10
-    //        let condition = 10 
-    //     speedup += 0.5
-    //     break;
-    //      console.log("it works")
-    // }
-    if(floorCount > 20 && floorCount < 40){
+       if(floorCount > 15 && floorCount < 30){
         speedup = 4
-    } else if (floorCount > 40 && floorCount < 60){
+    } else if (floorCount > 30 && floorCount < 75){
         speedup = 6
-    }else if (floorCount > 60 && floorCount < 80){
+    }else if (floorCount > 75 && floorCount < 120){
         speedup = 8
-    }else if (floorCount > 80 && floorCount < 100){
+    }else if (floorCount > 120 && floorCount < 180){
         speedup = 11
+    }else if (floorCount > 180){
+        speedup = 13
     }
-    
     console.log("this is speed up " +speedup);
     console.log("this is amount of floors" + floorCount);
     
@@ -126,23 +123,25 @@ class Obstacle {
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ball.draw();
+    ctx.drawImage(spikeImage, 0, 0, canvas.width, 100);
+   
 
     ball.vy += gravity - ball.userPull;
     ball.x += ball.vx; // the width and height
     ball.y += ball.vy;
     
     if (rightPressed) {
-      ball.x += 15;
+      ball.x += 17;
       if (ball.x + ball.width > canvas.width) {
         ball.x = canvas.width - ball.width;
       }
     } else if (leftPressed) {
-      ball.x -= 15;
+      ball.x -= 17;
       if (ball.x < 0) {
         ball.x = 0;
       }
     }
-
+    
     
     preventGoingThroughBottom(); // conditions wen ball hit bottem of canvis
     /// only needed for ground
@@ -254,10 +253,10 @@ function updateSprite(){
     
 }
 
-// function audioVolume() {
-//     let audio = document.getElementById("myaudio");
-//     audio.volume = 0.05;
-// };
+function audioVolume() {
+    let audio = document.getElementById("myaudio");
+    audio.volume = 0.05;
+};
 
 let rightPressed = false;
 let leftPressed = false;
@@ -277,7 +276,7 @@ let floors = [];
 // let obstacle = new Obstacle(200, 500, 500, 50, 5, "#0095DD");
 
 // <---- function defined ----->
-// audioVolume();
+audioVolume();
 
 createInitalObjects();
 
